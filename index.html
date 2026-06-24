@@ -5,295 +5,163 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Howick Rifle Club - Club Night</title>
 <style>
-@font-face{
-  font-family:'Maximum Voltage';
-  src:url('MaximumVoltage.ttf') format('truetype');
-  font-weight:400;
-  font-style:normal;
-  font-display:swap;
-}
-:root{
-  --bg:#050505;
-  --panel:#141414;
-  --panel2:#101010;
-  --line:#333;
-  --text:#f6f6f6;
-  --muted:#bfbfbf;
-  --blue:#0879c9;
-  --blue2:#0b4f86;
-  --green:#103f22;
-  --green2:#15502a;
-  --empty:#666;
-}
+@font-face{font-family:'Maximum Voltage';src:url('MaximumVoltage.ttf') format('truetype');font-display:swap;}
+:root{--bg:#050505;--panel:#151515;--line:#303030;--text:#fff;--muted:#c8c8c8;--accent:#0b83bd;--done:#153d24;--started:#12365a;}
 *{box-sizing:border-box}
-html,body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;}
-body{min-height:100vh;}
-header{
-  display:grid;
-  grid-template-columns:110px 1fr auto;
-  gap:26px;
-  align-items:center;
-  padding:18px 34px 16px;
-  background:#000;
-  border-bottom:4px solid var(--blue);
-}
-.logo{
-  width:96px;
-  height:96px;
-  object-fit:contain;
-  background:transparent;
-  border:0;
-  box-shadow:none;
-  padding:0;
-}
-.title h1{
-  margin:0;
-  font-family:'Maximum Voltage',Arial,Helvetica,sans-serif;
-  font-size:76px;
-  line-height:.9;
-  color:#fff;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  text-shadow:0 0 14px rgba(255,255,255,.22);
-}
-.title .sub{
-  margin-top:6px;
-  font-size:24px;
-  color:#ddd;
-  text-transform:uppercase;
-  letter-spacing:2px;
-  font-weight:700;
-}
-.controls{
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  gap:10px;
-  flex-wrap:wrap;
-  font-size:22px;
-  color:#ddd;
-}
-.controls button{
-  font-size:24px;
-  font-weight:800;
-  color:#fff;
-  background:#151515;
-  border:1px solid var(--blue);
-  border-radius:8px;
-  min-width:58px;
-  height:58px;
-  cursor:pointer;
-}
-.controls button.active{
-  background:linear-gradient(180deg,var(--blue),var(--blue2));
-  box-shadow:0 0 14px rgba(8,121,201,.45);
-}
-main{padding:24px 30px 34px;}
-.meta{
-  display:flex;
-  justify-content:space-between;
-  gap:20px;
-  align-items:center;
-  margin-bottom:18px;
-  color:#ddd;
-  font-size:20px;
-}
-.error{background:#5a1111;border:1px solid #c33;padding:12px;border-radius:8px;margin-bottom:14px;font-size:18px;}
-.hidden{display:none;}
-.scores{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:24px;
-}
-.section{
-  background:linear-gradient(180deg,var(--panel),var(--panel2));
-  border:1px solid var(--line);
-  border-radius:12px;
-  overflow:hidden;
-  box-shadow:0 0 18px rgba(0,0,0,.35);
-}
-.section h2{
-  margin:0;
-  padding:20px 22px 14px;
-  font-family:'Maximum Voltage',Arial,Helvetica,sans-serif;
-  color:#fff;
-  font-size:48px;
-  line-height:.9;
-  letter-spacing:2px;
-  text-transform:uppercase;
-  border-bottom:1px solid var(--line);
-  text-shadow:0 0 12px rgba(255,255,255,.22);
-}
-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-th,td{
-  border-bottom:1px solid var(--line);
-  padding:10px 9px;
-  text-align:center;
-}
-th{
-  font-size:18px;
-  color:#f2f2f2;
-  text-transform:uppercase;
-  letter-spacing:.5px;
-  background:#171717;
-}
-td{
-  height:48px;
-  font-size:24px;
-  color:#f6f6f6;
-  font-weight:600;
-}
-td.mound{width:12%;font-size:26px;color:var(--empty);font-weight:900;}
-td.name{text-align:left;font-size:25px;font-weight:900;line-height:1.05;}
-td.total{font-weight:900;}
-tr.empty td{color:#5f5f5f;}
-tr.inprogress td{background:linear-gradient(90deg,rgba(8,121,201,.55),rgba(8,121,201,.32));}
-tr.done td{background:linear-gradient(90deg,var(--green),var(--green2));color:#fff;}
-tr.done td.mound,tr.inprogress td.mound{color:#fff;}
-.legend{
-  margin:22px auto 0;
-  max-width:980px;
-  display:flex;
-  justify-content:center;
-  gap:34px;
-  align-items:center;
-  border:1px solid var(--line);
-  border-radius:10px;
-  padding:14px 20px;
-  color:#ddd;
-  font-size:18px;
-  text-transform:uppercase;
-  letter-spacing:.8px;
-}
-.key{display:flex;gap:10px;align-items:center;}
-.swatch{width:36px;height:30px;border-radius:6px;border:1px solid #555;background:#333;}
-.swatch.blue{background:linear-gradient(180deg,var(--blue),var(--blue2));}
-.swatch.green{background:linear-gradient(180deg,var(--green),var(--green2));}
-.note{
-  margin-top:16px;
-  text-align:center;
-  color:#aaa;
-  font-size:15px;
-}
-@media(max-width:1000px){
-  header{grid-template-columns:82px 1fr;gap:18px;padding:14px 18px;}
-  .logo{width:76px;height:76px;}
-  .title h1{font-size:42px;}
-  .title .sub{font-size:16px;}
-  .controls{grid-column:1/3;justify-content:center;}
-  .scores{grid-template-columns:1fr;}
-  .section h2{font-size:34px;}
-  td{font-size:19px;}
-  td.name{font-size:20px;}
-  .legend{flex-direction:column;gap:10px;align-items:flex-start;}
-}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif;overflow:hidden;}
+header{display:grid;grid-template-columns:150px 1fr 520px;gap:24px;align-items:center;padding:18px 28px;background:#000;border-bottom:5px solid var(--accent);}
+.logo{width:150px;height:150px;object-fit:contain;background:transparent;border:0;box-shadow:none;padding:0;}
+h1{margin:0;font-family:'Maximum Voltage',Impact,'Arial Black',sans-serif;font-size:88px;line-height:.9;color:#fff;letter-spacing:2px;text-shadow:0 0 16px rgba(255,255,255,.35);}
+.subtitle{margin-top:8px;color:var(--muted);font-size:21px;text-transform:uppercase;letter-spacing:2px;}
+.detail-buttons{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;}
+button{height:58px;border:1px solid var(--accent);background:#1b1b1b;color:#fff;border-radius:10px;font-size:28px;font-weight:900;}
+button.active{background:var(--accent);box-shadow:0 0 14px rgba(11,131,189,.7);}
+.meta{display:flex;justify-content:space-between;padding:14px 30px 4px;color:var(--muted);font-size:18px;}
+.main{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:14px 26px 0;}
+.section{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--panel);}
+.section h2{margin:0;padding:15px 18px 10px;border-bottom:1px solid var(--line);font-family:'Maximum Voltage',Impact,'Arial Black',sans-serif;font-size:50px;line-height:.95;color:#fff;letter-spacing:2px;text-shadow:0 0 12px rgba(255,255,255,.28);}
+.row{display:grid;grid-template-columns:80px 1fr 60px 100px 100px 110px;gap:8px;align-items:center;min-height:62px;padding:7px 14px;border-bottom:1px solid var(--line);font-size:25px;}
+.row.header{min-height:38px;font-size:16px;font-weight:900;color:#ddd;text-transform:uppercase;background:#191919;}
+.row.empty{color:#606060;}
+.row.started{background:linear-gradient(90deg,var(--started),#10243a);}
+.row.done{background:linear-gradient(90deg,var(--done),#0c331b);}
+.mound{font-weight:900;text-align:center;font-size:29px;}
+.name{font-weight:900;line-height:1.05;}
+.score,.gd,.total{text-align:center;}
+.total{font-weight:900;}
+.note{position:fixed;bottom:8px;left:0;right:0;text-align:center;color:var(--muted);font-size:15px;}
+.error{margin:10px 28px;padding:12px;border:1px solid #8b0000;background:#300;color:#fff;border-radius:8px;}
+.hidden{display:none}
 </style>
 </head>
 <body>
 <header>
   <img class="logo" src="hrc-logo.png" alt="Howick Rifle Club logo">
-  <div class="title">
-    <h1>Howick Rifle Club</h1>
-    <div class="sub">Club Night Digital Squad Sheet</div>
+  <div><h1>HOWICK RIFLE CLUB</h1><div class="subtitle">Club night digital squad sheet</div></div>
+  <div class="detail-buttons">
+<button data-detail="1" class="active">1</button><button data-detail="2">2</button><button data-detail="3">3</button><button data-detail="4">4</button><button data-detail="5">5</button>
   </div>
-  <div class="controls"><span>Detail</span><button data-detail="1" class="active">1</button><button data-detail="2">2</button><button data-detail="3">3</button><button data-detail="4">4</button><button data-detail="5">5</button></div>
 </header>
-<main>
-  <div class="meta"><div id="dateLine">Date: - | Detail: 1</div><div id="updatedLine">Loading scores...</div></div>
-  <div id="error" class="error hidden"></div>
-  <div class="scores">
-    <section class="section"><h2>Upstairs • Mounds 1–8</h2><table><thead><tr><th>Mound</th><th>Name</th><th>GD</th><th>Card 1</th><th>Card 2</th><th>Total</th></tr></thead><tbody id="upstairs"></tbody></table></section>
-    <section class="section"><h2>Downstairs • Mounds 9–16</h2><table><thead><tr><th>Mound</th><th>Name</th><th>GD</th><th>Card 1</th><th>Card 2</th><th>Total</th></tr></thead><tbody id="downstairs"></tbody></table></section>
-  </div>
-  <div class="legend">
-    <div class="key"><span class="swatch"></span>Grey = empty mound</div>
-    <div class="key"><span class="swatch blue"></span>Blue = shooting underway</div>
-    <div class="key"><span class="swatch green"></span>Green = completed</div>
-  </div>
-  <div class="note">Rows turn blue once Card 1 or Card 2 is entered, and green once Total is entered or calculated. Page refreshes every 30 seconds.</div>
-</main>
+<div class="meta"><div id="dateLine">Date:</div><div id="updatedLine">Loading scores...</div></div>
+<div id="error" class="error hidden"></div>
+<div class="main">
+  <section class="section"><h2>UPSTAIRS • MOUNDS 1-8</h2><div class="row header"><div>Mound</div><div>Name</div><div>GD</div><div>Card 1</div><div>Card 2</div><div>Total</div></div><div id="upstairs"></div></section>
+  <section class="section"><h2>DOWNSTAIRS • MOUNDS 9-16</h2><div class="row header"><div>Mound</div><div>Name</div><div>GD</div><div>Card 1</div><div>Card 2</div><div>Total</div></div><div id="downstairs"></div></section>
+</div>
+<div class="note">Blue = shooting underway. Green = completed. Page refreshes every 30 seconds.</div>
 <script>
-const CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vSCI_m8Bcggcp-PAlTD7WWmRVwYfMerYmM_pikUgkgt-y-_iM1NACqxdYRTsqh-atOglbNOHXmgaRue/pub?output=csv';
-const REFRESH_MS=30000;
-let currentDetail='1';
-let allRows=[];
+const CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSGxSOjQ4zegz326hsZt7eZ7peVNd1F7CeUokwwFLwf-HZRQ2i4DeIFjfDQ9xgdk42CW68NJoVEYZok/pub?output=csv';
+const REFRESH_MS = 30000;
+let currentDetail = '1';
+let allRows = [];
+
 function parseCSV(text){
   const rows=[]; let row=[], cell='', q=false;
   for(let i=0;i<text.length;i++){
     const c=text[i], n=text[i+1];
-    if(c==='"' && q && n==='"'){cell+='"'; i++;}
-    else if(c==='"'){q=!q;}
-    else if(c===',' && !q){row.push(cell); cell='';}
-    else if((c==='\n'||c==='\r') && !q){ if(cell||row.length){row.push(cell); rows.push(row); row=[]; cell='';} if(c==='\r'&&n==='\n') i++;}
-    else cell+=c;
+    if(c === '"' && q && n === '"'){cell+='"'; i++;}
+    else if(c === '"'){q=!q;}
+    else if(c === ',' && !q){row.push(cell); cell='';}
+    else if((c === '\n' || c === '\r') && !q){
+      if(cell || row.length){row.push(cell); rows.push(row); row=[]; cell='';}
+      if(c === '\r' && n === '\n') i++;
+    } else cell += c;
   }
-  if(cell||row.length){row.push(cell); rows.push(row);}
-  const headers=rows.shift().map(h=>h.trim());
-  return rows.filter(r=>r.some(x=>String(x).trim()!=='')).map(r=>Object.fromEntries(headers.map((h,i)=>[h,(r[i]||'').trim()])));
+  if(cell || row.length){row.push(cell); rows.push(row);}
+  const headers = rows.shift().map(h => h.trim());
+  return rows.filter(r => r.some(x => String(x).trim() !== '')).map(r =>
+    Object.fromEntries(headers.map((h,i)=>[h,(r[i]||'').trim()]))
+  );
 }
-function scoreValue(s){
-  if(!s) return 0;
-  const m=String(s).match(/^(\d+)(?:\.(\d+))?/);
-  return m ? Number(m[1]) : 0;
+
+function pick(r, names){
+  for (const n of names) {
+    if (r[n] !== undefined && String(r[n]).trim() !== '') return String(r[n]).trim();
+  }
+  return '';
 }
-function calcTotal(r){
-  if(r.Total) return r.Total;
-  const c1=scoreValue(r.Card1 || r['Card 1']);
-  const c2=scoreValue(r.Card2 || r['Card 2']);
-  if(!c1 && !c2) return '';
-  return String(c1+c2);
+
+function cardDisplay(r, scoreNames, xNames){
+  const score = pick(r, scoreNames);
+  const x = pick(r, xNames);
+  if(!score && !x) return '';
+  if(score && x) return score + '.' + x;
+  return score || '';
 }
+
+function totalDisplay(r){
+  const display = pick(r, ['Display Total','DisplayTotal','Total Display','Total']);
+  if(display) return display;
+  const totalScore = pick(r, ['Total Score','TotalScore']);
+  const totalX = pick(r, ['Total X','TotalX','Total Inners']);
+  if(totalScore && totalX) return totalScore + '.' + String(totalX).padStart(2,'0');
+  if(totalScore) return totalScore;
+  return '';
+}
+
 function normalise(r){
   return {
-    Detail:r.Detail||'', Date:r.Date||'', Mound:r.Mound||'', Position:r.Position||'', Name:r.Name||'', Grade:r.Grade||r.GD||'',
-    Card1:r.Card1||r['Card 1']||'', Card2:r.Card2||r['Card 2']||'', Total:r.Total||'', Status:r.Status||''
+    Detail: pick(r, ['Detail']),
+    Date: pick(r, ['Date']),
+    Mound: pick(r, ['Mound']),
+    Position: pick(r, ['Position']),
+    Name: pick(r, ['Name','Shooter']),
+    Grade: pick(r, ['Grade','GD']),
+    Card1: cardDisplay(r, ['Card1 Score','Card 1 Score','Card1','Card 1'], ['Card1 X','Card 1 X','Card1 Inners','Card 1 Inners']),
+    Card2: cardDisplay(r, ['Card2 Score','Card 2 Score','Card2','Card 2'], ['Card2 X','Card 2 X','Card2 Inners','Card 2 Inners']),
+    Total: totalDisplay(r)
   };
 }
-function rowHtml(r){
-  r=normalise(r);
-  const total=calcTotal(r);
-  const hasName=!!r.Name;
-  const started=hasName && (r.Card1 || r.Card2);
-  const done=hasName && !!total;
-  const cls=done?'done':(started?'inprogress':(!hasName?'empty':''));
-  return `<tr class="${cls}"><td class="mound">${r.Mound||''}</td><td class="name">${r.Name||''}</td><td>${r.Grade||''}</td><td>${r.Card1||''}</td><td>${r.Card2||''}</td><td class="total">${total||''}</td></tr>`;
+
+function rowClass(r){
+  if(!r.Name) return 'empty';
+  if(r.Total) return 'done';
+  if(r.Card1 || r.Card2) return 'started';
+  return '';
 }
-function baseRows(position){
-  const start=position==='Upstairs'?1:9, end=position==='Upstairs'?8:16;
-  const arr=[]; for(let m=start;m<=end;m++) arr.push({Detail:currentDetail,Mound:String(m),Position:position});
-  return arr;
+
+function makeRow(r){
+  return `<div class="row ${rowClass(r)}"><div class="mound">${r.Mound||''}</div><div class="name">${r.Name||''}</div><div class="gd">${r.Grade||''}</div><div class="score">${r.Card1||''}</div><div class="score">${r.Card2||''}</div><div class="total">${r.Total||''}</div></div>`;
 }
+
 function render(){
-  const detailRows=allRows.map(normalise).filter(r=>String(r.Detail).trim()===currentDetail);
-  const date=(detailRows.find(r=>r.Date)?.Date)||'';
-  document.getElementById('dateLine').textContent=`Date: ${date || '-'} | Detail: ${currentDetail}`;
-  ['Upstairs','Downstairs'].forEach(pos=>{
-    const base=baseRows(pos);
-    const rows=base.map(b=>detailRows.find(r=>String(r.Mound)===String(b.Mound))||b);
-    document.getElementById(pos.toLowerCase()).innerHTML=rows.map(rowHtml).join('');
-  });
+  const detailRows = allRows.filter(r => String(r.Detail).trim() === currentDetail);
+  const date = (detailRows.find(r => r.Date)?.Date) || '';
+  document.getElementById('dateLine').textContent = `Date: ${date || '-'} | Detail: ${currentDetail}`;
+  const upstairs = [], downstairs = [];
+  for(let m=1;m<=8;m++) upstairs.push(detailRows.find(r => String(r.Mound).trim() === String(m)) || {Mound:String(m)});
+  for(let m=9;m<=16;m++) downstairs.push(detailRows.find(r => String(r.Mound).trim() === String(m)) || {Mound:String(m)});
+  document.getElementById('upstairs').innerHTML = upstairs.map(makeRow).join('');
+  document.getElementById('downstairs').innerHTML = downstairs.map(makeRow).join('');
 }
+
 async function load(){
   try{
-    const sep=CSV_URL.includes('?')?'&':'?';
-    const res=await fetch(CSV_URL+sep+'cacheBust='+Date.now());
-    if(!res.ok) throw new Error('Could not load CSV');
-    allRows=parseCSV(await res.text());
+    const sep = CSV_URL.includes('?') ? '&' : '?';
+    const res = await fetch(CSV_URL + sep + 'cacheBust=' + Date.now());
+    if(!res.ok) throw new Error('Could not load scores');
+    const text = await res.text();
+    allRows = parseCSV(text).map(normalise);
     document.getElementById('error').classList.add('hidden');
-    document.getElementById('updatedLine').textContent='Updated: '+new Date().toLocaleTimeString();
+    document.getElementById('updatedLine').textContent = 'Updated: ' + new Date().toLocaleTimeString();
     render();
   }catch(e){
-    document.getElementById('error').textContent='Scoreboard problem: '+e.message;
-    document.getElementById('error').classList.remove('hidden');
+    const el = document.getElementById('error');
+    el.textContent = 'Scoreboard problem: ' + e.message;
+    el.classList.remove('hidden');
   }
 }
-document.querySelectorAll('[data-detail]').forEach(b=>b.addEventListener('click',()=>{
-  currentDetail=b.dataset.detail;
-  document.querySelectorAll('[data-detail]').forEach(x=>x.classList.remove('active'));
-  b.classList.add('active');
-  render();
-}));
-load(); setInterval(load,REFRESH_MS);
+
+document.querySelectorAll('button[data-detail]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    currentDetail = btn.dataset.detail;
+    document.querySelectorAll('button[data-detail]').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    render();
+  });
+});
+load();
+setInterval(load, REFRESH_MS);
 </script>
 </body>
 </html>
